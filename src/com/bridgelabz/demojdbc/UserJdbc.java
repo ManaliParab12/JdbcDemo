@@ -8,23 +8,23 @@ import java.sql.Statement;
 
 public class UserJdbc {
 
-	private static final String UPDATE_TABLE = "UPDATE user SET name = \"Diksha\" WHERE id = 1;"; 
+	private static final String DELETE_USER_FROM_TABLE = "DELETE FROM user  WHERE id = 2;"; 
 
 	public static void main(String[] args) throws SQLException {
 		UserJdbc userJdbc = new UserJdbc();
-		userJdbc.updateRecord();
+		userJdbc.deleteRecord();
 	}
 
-	public void updateRecord() throws SQLException {
+	public void deleteRecord() throws SQLException {
 		
-		System.out.println(UPDATE_TABLE);
+		System.out.println(DELETE_USER_FROM_TABLE);
 
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_demo?useSSL=false",
 				"root", "Manali@123");
 
 				Statement statement = connection.createStatement();) {
 
-			int result = statement.executeUpdate(UPDATE_TABLE);
+			int result = statement.executeUpdate(DELETE_USER_FROM_TABLE);
 			System.out.println("No. of records affected: " +result);
 		} catch (SQLException e) {
 	
