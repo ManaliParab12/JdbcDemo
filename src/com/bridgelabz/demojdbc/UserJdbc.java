@@ -9,32 +9,31 @@ import java.sql.Statement;
 
 public class UserJdbc {
 
-	private static final String INSERT_USER_INTO_TABLE = "INSERT INTO user"
-	                    + " (id, name, email, address, password) VALUES " 
-			            + " (?, ?, ?, ?, ?);"; 
+	private static final String QUERY = "SELECT id, name, email, address, password FROM user WHERE id = ?";
 
 	public static void main(String[] args) throws SQLException {
 		UserJdbc userJdbc = new UserJdbc();
-		userJdbc.insertRecord();
+		userJdbc.retriveRecord();
 	}
 
-	public void insertRecord() throws SQLException {		
-		System.out.println(INSERT_USER_INTO_TABLE);
+	public void retriveRecord() throws SQLException {		
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_demo?useSSL=false",
 				"root", "Manali@123");
 
-				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_INTO_TABLE)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(QUERY)) {
 			//setting placeholder values
-			preparedStatement.setInt(1, 2);
-			preparedStatement.setString(2, "Tony");
-			preparedStatement.setString(3, "tony@gmail.com");
-			preparedStatement.setString(4, "Abc");
-			preparedStatement.setString(5, "secret");
-			
+			preparedStatement.setInt(1, 2);			
 			System.out.println(preparedStatement);
 
-			int result = preparedStatement.executeUpdate();
-			System.out.println("No. of records affected: " +result);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				String email = resultSet.getString("email");
+				String address = resultSet.getString("address");
+				String password = resultSet.getString("password");
+				System.out.println(id + ", " +name + ", " +email + ", " +address  + ", " +password);
+			}
 		} catch (SQLException e) {
 	
 			printSQLException(e);
