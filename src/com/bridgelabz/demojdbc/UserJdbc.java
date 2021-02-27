@@ -9,31 +9,26 @@ import java.sql.Statement;
 
 public class UserJdbc {
 
-	private static final String QUERY = "SELECT id, name, email, address, password FROM user WHERE id = ?";
+	private static final String UPDATE_USER_INTO_TABLE = "UPDATE user SET name = ? WHERE id = ?"; 
 
 	public static void main(String[] args) throws SQLException {
 		UserJdbc userJdbc = new UserJdbc();
-		userJdbc.retriveRecord();
+		userJdbc.updateRecord();
 	}
 
-	public void retriveRecord() throws SQLException {		
+	public void updateRecord() throws SQLException {	
+		System.out.println(UPDATE_USER_INTO_TABLE);
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_demo?useSSL=false",
 				"root", "Manali@123");
 
-				PreparedStatement preparedStatement = connection.prepareStatement(QUERY)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_INTO_TABLE)) {
 			//setting placeholder values
-			preparedStatement.setInt(1, 2);			
+			preparedStatement.setString(1, "Ram");
+			preparedStatement.setInt(2, 1);	
 			System.out.println(preparedStatement);
 
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
-				String name = resultSet.getString("name");
-				String email = resultSet.getString("email");
-				String address = resultSet.getString("address");
-				String password = resultSet.getString("password");
-				System.out.println(id + ", " +name + ", " +email + ", " +address  + ", " +password);
-			}
+			int result = preparedStatement.executeUpdate();
+			System.out.println("No. of records affected: " +result);
 		} catch (SQLException e) {
 	
 			printSQLException(e);
