@@ -9,22 +9,21 @@ import java.sql.Statement;
 
 public class UserJdbc {
 
-	private static final String UPDATE_USER_INTO_TABLE = "UPDATE user SET name = ? WHERE id = ?"; 
+	private static final String DELETE_USER_FROM_TABLE = "DELETE FROM user  WHERE id = ?;"; 
 
 	public static void main(String[] args) throws SQLException {
 		UserJdbc userJdbc = new UserJdbc();
-		userJdbc.updateRecord();
+		userJdbc.deleteRecord();
 	}
 
-	public void updateRecord() throws SQLException {	
-		System.out.println(UPDATE_USER_INTO_TABLE);
+	public void deleteRecord() throws SQLException {	
+		System.out.println(DELETE_USER_FROM_TABLE);
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_demo?useSSL=false",
 				"root", "Manali@123");
 
-				PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_INTO_TABLE)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_FROM_TABLE)) {
 			//setting placeholder values
-			preparedStatement.setString(1, "Ram");
-			preparedStatement.setInt(2, 1);	
+			preparedStatement.setInt(1, 1);	
 			System.out.println(preparedStatement);
 
 			int result = preparedStatement.executeUpdate();
