@@ -8,30 +8,28 @@ import java.sql.Statement;
 
 public class UserJdbc {
 
-	private static final String CREATE_TABLE = "create table user(\r\n" + " id int(3) primary key, \r\n"
-			+ "name varchar(20), \r\n" + "email varchar(100), \r\n" + "address varchar(20), \r\n"
-			+ "password varchar(20) \r\n" + ");";
+	private static final String INSERT_INTO_TABLE = "INSERT INTO user " + 
+													"VALUES (1, 'Manali', 'manaliparab10@gmail.com', 'Mumbai', 'Manali@123')," +
+													"(2, 'Jignesh', 'jignesh5555t@gmail.com', 'Mumbai', 'Jignesh@123');";
 
 	public static void main(String[] args) throws SQLException {
 		UserJdbc userJdbc = new UserJdbc();
-		userJdbc.createTable();
+		userJdbc.insertRecord();
 	}
 
-	// try-with-resource statement to close resources automatically.
-	public void createTable() throws SQLException {
+	public void insertRecord() throws SQLException {
 		
-		System.out.println(CREATE_TABLE);
-		// 1. Establishing a connection
+		System.out.println(INSERT_INTO_TABLE);
+
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_demo?useSSL=false",
 				"root", "Manali@123");
-				// 2. create statement using connection object
+
 				Statement statement = connection.createStatement();) {
-			// 3. Execute Query or update Query
-			boolean result = statement.execute(CREATE_TABLE);
-			// 4. print the result
-			System.out.println(result);
+
+			int result = statement.executeUpdate(INSERT_INTO_TABLE);
+			System.out.println("No. of records affected: " +result);
 		} catch (SQLException e) {
-			// print SQL Exception
+	
 			printSQLException(e);
 		}
 	}
