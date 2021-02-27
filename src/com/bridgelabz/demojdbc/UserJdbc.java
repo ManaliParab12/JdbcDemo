@@ -8,25 +8,23 @@ import java.sql.Statement;
 
 public class UserJdbc {
 
-	private static final String INSERT_INTO_TABLE = "INSERT INTO user " + 
-													"VALUES (1, 'Manali', 'manaliparab10@gmail.com', 'Mumbai', 'Manali@123')," +
-													"(2, 'Jignesh', 'jignesh5555t@gmail.com', 'Mumbai', 'Jignesh@123');";
+	private static final String UPDATE_TABLE = "UPDATE user SET name = \"Diksha\" WHERE id = 1;"; 
 
 	public static void main(String[] args) throws SQLException {
 		UserJdbc userJdbc = new UserJdbc();
-		userJdbc.insertRecord();
+		userJdbc.updateRecord();
 	}
 
-	public void insertRecord() throws SQLException {
+	public void updateRecord() throws SQLException {
 		
-		System.out.println(INSERT_INTO_TABLE);
+		System.out.println(UPDATE_TABLE);
 
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_demo?useSSL=false",
 				"root", "Manali@123");
 
 				Statement statement = connection.createStatement();) {
 
-			int result = statement.executeUpdate(INSERT_INTO_TABLE);
+			int result = statement.executeUpdate(UPDATE_TABLE);
 			System.out.println("No. of records affected: " +result);
 		} catch (SQLException e) {
 	
